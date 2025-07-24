@@ -68,7 +68,6 @@ A Supervisor configuration is provided in `supervisor/email-worker.conf` to keep
    ```
 3. The config sets `autorestart=true`, so Supervisor will restart the worker if it crashes. Logs go to `/var/log/email-worker.out.log` and `/var/log/email-worker.err.log`.
 
-
 ## Handling Bounces and Complaints
 
 Configure an SNS topic for SES notifications and point its HTTPS subscription to `public/sns-handler.php`. This endpoint confirms the subscription and inserts bounced/complaining addresses into the `email_suppressions` table.
