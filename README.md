@@ -57,7 +57,16 @@ The worker consumes the queue, applies rate limits and logs results. Run it manu
 php scripts/worker-runner.php
 ```
 
-A Supervisor configuration is provided in `supervisor/email-worker.conf` to keep the worker running in production.
+A Supervisor configuration is provided in `supervisor/email-worker.conf` to keep the worker running in production. To enable it:
+
+1. Install Supervisor (`sudo apt-get install supervisor` on Debian/Ubuntu).
+2. Copy the file to `/etc/supervisor/conf.d/` and reload:
+   ```bash
+   sudo cp supervisor/email-worker.conf /etc/supervisor/conf.d/
+   sudo supervisorctl reread
+   sudo supervisorctl update
+   ```
+3. The config sets `autorestart=true`, so Supervisor will restart the worker if it crashes. Logs go to `/var/log/email-worker.out.log` and `/var/log/email-worker.err.log`.
 
 ## Handling Bounces and Complaints
 
