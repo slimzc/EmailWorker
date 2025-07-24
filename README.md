@@ -70,7 +70,6 @@ A Supervisor configuration is provided in `supervisor/email-worker.conf` to keep
 4. Check status with `sudo supervisorctl status email-worker`. You can manually start or stop it with `sudo supervisorctl start email-worker` and `sudo supervisorctl stop email-worker`.
 If you clone the project into a different directory, update the `command` path inside `supervisor/email-worker.conf` accordingly.
 
-
 ## Handling Bounces and Complaints
 
 Configure an SNS topic for SES notifications and point its HTTPS subscription to `public/sns-handler.php`. This endpoint confirms the subscription and inserts bounced/complaining addresses into the `email_suppressions` table.
@@ -112,3 +111,4 @@ Mail::enqueue('user@example.com', 'Subject', 'Body');
 Ensure Redis, PostgreSQL and the `.env` configuration are available. The worker
 and SNS handler can run separately from your application, providing background
 email processing.
+Add this project as a dependency (or copy the `src/` directory) and include the `SisProing\Helper\Mail` facade in your application. Call `Mail::enqueue()` to queue emails; ensure Redis, PostgreSQL and the `.env` configuration are accessible. The worker and SNS handler can run separately from your application, providing background email processing.
