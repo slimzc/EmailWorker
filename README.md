@@ -67,6 +67,8 @@ A Supervisor configuration is provided in `supervisor/email-worker.conf` to keep
    sudo supervisorctl update
    ```
 3. The config sets `autorestart=true`, so Supervisor will restart the worker if it crashes. Logs go to `/var/log/email-worker.out.log` and `/var/log/email-worker.err.log`.
+4. Check status with `sudo supervisorctl status email-worker`. You can manually start or stop it with `sudo supervisorctl start email-worker` and `sudo supervisorctl stop email-worker`.
+If you clone the project into a different directory, update the `command` path inside `supervisor/email-worker.conf` accordingly.
 
 ## Handling Bounces and Complaints
 
@@ -81,4 +83,32 @@ To run the unit tests:
 
 ## Using in Other Projects
 
+Install this library with Composer so the `SisProing\\` namespace is autoloaded automatically.
+
+1. If published on Packagist you can simply run:
+   ```bash
+   composer require sisproing/mi-email-worker
+   ```
+2. Otherwise add the repository to your `composer.json`:
+   ```json
+   {
+       "repositories": [
+           {"type": "vcs", "url": "https://github.com/your-org/mi-email-worker"}
+       ]
+   }
+   ```
+   Then install with:
+   ```bash
+   composer require sisproing/mi-email-worker:dev-main
+   ```
+
+After installation the `SisProing\\Helper\\Mail` facade can be used directly:
+```php
+use SisProing\Helper\Mail;
+
+Mail::enqueue('user@example.com', 'Subject', 'Body');
+```
+Ensure Redis, PostgreSQL and the `.env` configuration are available. The worker
+and SNS handler can run separately from your application, providing background
+email processing.
 Add this project as a dependency (or copy the `src/` directory) and include the `SisProing\Helper\Mail` facade in your application. Call `Mail::enqueue()` to queue emails; ensure Redis, PostgreSQL and the `.env` configuration are accessible. The worker and SNS handler can run separately from your application, providing background email processing.
